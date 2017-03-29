@@ -1,180 +1,101 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <head>
-  <meta charset="utf-8">
+	<title>原谅-forgive</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<style type="text/css">  
+        * {  
+            margin: 0;  
+            padding: 0;  
+        }  
   
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+        html {
+            height: 100%;
+			width: 100%;
+            margin: 0;  
+        }  
+ 
+        #canvasZone {
+            width: 100%;  
+            height: 100%;
+        }  
+ 
+        #myCanvas {
+            height:100%;  
+        }  
+    </style>  
+    <script type="text/javascript">  
+        var arr = [];//�������е�XY���ֻ꣬Ϊ��֤��ʵ�ʳ����п�ɾ����  
+        var r = 4;  
+        var radian;//����  
+        var i;  
+        var radianDecrement;//��������  
+        var time = 10;//ÿ����֮����ʱ������  
+        var intervalId;  
+        var num = 360;//�ָ�Ϊ 360 ����  
+        var startRadian = Math.PI;  
+        var ctx;  
+        window.onload = function () {  
+            startAnimation();  
+        }  
+        function startAnimation() {  
+            ctx = document.getElementById("myCanvas").getContext("2d");  
+            //�û�������������Ļ��-20�ǹ�������λ�ã������������������������ἷѹ������  
+            WINDOW_HEIGHT=document.documentElement.clientHeight-20;  
+            WINDOW_WIDTH=document.documentElement.clientWidth-20;  
+            ctx.width = WINDOW_WIDTH;  
+            ctx.heigh = WINDOW_HEIGHT;  
+            drawHeart();  
+        }  
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+        function drawHeart() {  
   
+            ctx.strokeStyle = "red";  
+            ctx.lineWidth = 1;//�����ߵĿ���  
+            radian = startRadian;//������Ϊ��ʼ����  
+            radianDecrement = Math.PI / num * 2;  
+            ctx.moveTo(getX(radian), getY(radian));//�ƶ�����ʼ��  
+            i = 0;  
+            intervalId = setInterval("printHeart()", time);  
+        }  
+        //x = 16 sin^3 t, y = (13 cos t - 5 cos 2t - 2 cos 3t - cos 4t)  
+        function printHeart() {  
+            radian += radianDecrement;  
+            ctx.lineTo(getX(radian), getY(radian));//�ھɵ����µ�֮������  
+            //arr.push("X:" + getX(radian) + "<br/>Y:" + getY(radian) + "<br/>");  
+            i++;  
+            ctx.stroke();//����  
+            if (i >= num) {  
+                clearInterval(intervalId);  
+                //document.getElementById("bs").innerHTML = arr.join("");//��ӡ���е�XY�����㡣  
+            }  
+        }  
+        function getX(t) {//�ɻ��ȵõ� X ����  
+            return 100 + r * (16 * Math.pow(Math.sin(t), 3));  
+        }  
   
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-
+        function getY(t) {//�ɻ��ȵõ� Y ����  
+            return 50 - r * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));  
+        }  
+    </script>
 </head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/28/hello-world/" class="article-date">
-  <time datetime="2017-03-28T13:20:17.308Z" itemprop="datePublished">2017-03-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/28/hello-world/" data-id="cj0tkuo6b0000ycwekwn1c62i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/03/28/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-  </div>
+<style>
+#pic{
+height:768px;
+width:1366px;
+background-image:url(./520.jpg);
+background-position:center;
+background-repeat:no-repeat;
+}
+</style>
+<body id="pic">
+	<div id="canvasZone">  
+        <canvas id="myCanvas"></canvas>
+		<p align="center"><span style="font-size:40px; color:red; font-weight:bold;"></span></p>
+		<p align="center"><span style="font-size:36px; color:green; font-weight:bold;"></span></p>
+		<p>&nbsp;</p>
+    </div>  
 </body>
-</html>
