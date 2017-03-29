@@ -2,7 +2,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <head>
-	<title>饅頭貓与呆瓜</title>
+	<title>鍘熻皡-forgive</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -28,14 +28,14 @@
         }  
     </style>  
     <script type="text/javascript">  
-        var arr = [];//保存所有的XY坐标，只为验证。实际程序中可删除。  
+        var arr = [];//锟斤拷锟斤拷锟斤拷锟叫碉拷XY锟斤拷锟疥，只为锟斤拷证锟斤拷实锟绞筹拷锟斤拷锟叫匡拷删锟斤拷锟斤拷  
         var r = 4;  
-        var radian;//弧度  
+        var radian;//锟斤拷锟斤拷  
         var i;  
-        var radianDecrement;//弧度增量  
-        var time = 10;//每个点之间的时间间隔  
+        var radianDecrement;//锟斤拷锟斤拷锟斤拷锟斤拷  
+        var time = 10;//每锟斤拷锟斤拷之锟斤拷锟斤拷时锟斤拷锟斤拷锟斤拷  
         var intervalId;  
-        var num = 360;//分割为 360 个点  
+        var num = 360;//锟街革拷为 360 锟斤拷锟斤拷  
         var startRadian = Math.PI;  
         var ctx;  
         window.onload = function () {  
@@ -43,7 +43,7 @@
         }  
         function startAnimation() {  
             ctx = document.getElementById("myCanvas").getContext("2d");  
-            //让画布撑满整个屏幕，-20是滚动条的位置，需留出。如滚动条出现则会挤压画布。  
+            //锟矫伙拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷幕锟斤拷-20锟角癸拷锟斤拷锟斤拷锟斤拷位锟矫ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟结挤压锟斤拷锟斤拷锟斤拷  
             WINDOW_HEIGHT=document.documentElement.clientHeight-20;  
             WINDOW_WIDTH=document.documentElement.clientWidth-20;  
             ctx.width = WINDOW_WIDTH;  
@@ -54,30 +54,30 @@
         function drawHeart() {  
   
             ctx.strokeStyle = "red";  
-            ctx.lineWidth = 1;//设置线的宽度  
-            radian = startRadian;//弧度设为初始弧度  
+            ctx.lineWidth = 1;//锟斤拷锟斤拷锟竭的匡拷锟斤拷  
+            radian = startRadian;//锟斤拷锟斤拷锟斤拷为锟斤拷始锟斤拷锟斤拷  
             radianDecrement = Math.PI / num * 2;  
-            ctx.moveTo(getX(radian), getY(radian));//移动到初始点  
+            ctx.moveTo(getX(radian), getY(radian));//锟狡讹拷锟斤拷锟斤拷始锟斤拷  
             i = 0;  
             intervalId = setInterval("printHeart()", time);  
         }  
         //x = 16 sin^3 t, y = (13 cos t - 5 cos 2t - 2 cos 3t - cos 4t)  
         function printHeart() {  
             radian += radianDecrement;  
-            ctx.lineTo(getX(radian), getY(radian));//在旧点和新点之间连线  
+            ctx.lineTo(getX(radian), getY(radian));//锟节旧碉拷锟斤拷锟铰碉拷之锟斤拷锟斤拷锟斤拷  
             //arr.push("X:" + getX(radian) + "<br/>Y:" + getY(radian) + "<br/>");  
             i++;  
-            ctx.stroke();//画线  
+            ctx.stroke();//锟斤拷锟斤拷  
             if (i >= num) {  
                 clearInterval(intervalId);  
-                //document.getElementById("bs").innerHTML = arr.join("");//打印所有的XY坐标点。  
+                //document.getElementById("bs").innerHTML = arr.join("");//锟斤拷印锟斤拷锟叫碉拷XY锟斤拷锟斤拷锟姐。  
             }  
         }  
-        function getX(t) {//由弧度得到 X 坐标  
+        function getX(t) {//锟缴伙拷锟饺得碉拷 X 锟斤拷锟斤拷  
             return 100 + r * (16 * Math.pow(Math.sin(t), 3));  
         }  
   
-        function getY(t) {//由弧度得到 Y 坐标  
+        function getY(t) {//锟缴伙拷锟饺得碉拷 Y 锟斤拷锟斤拷  
             return 50 - r * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));  
         }  
     </script>
