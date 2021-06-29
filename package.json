@@ -1,0 +1,22 @@
+{
+  "name": "missingmeow.github.io",
+  "version": "1.0.0",
+  "description": "personal blog",
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/missingmeow/missingmeow.github.io.git"
+  },
+  "author": "socrates",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/missingmeow/missingmeow.github.io/issues"
+  },
+  "homepage": "https://github.com/missingmeow/missingmeow.github.io#readme",
+  "devDependencies": {
+    "vuepress": "^2.0.0-beta.20"
+  }
+}
