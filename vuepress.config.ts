@@ -20,11 +20,25 @@ export default defineUserConfig<DefaultThemeOptions>({
     sidebar: 'auto',
     navbar: [
       {
+        text: 'Language',
+        children: [
+          {
+            text: 'C++',
+            children: [
+              {
+                text: '11/14/17/20',
+                link: '/posts/c-plus-plus-11-14-17-20.md'
+              }
+            ]
+          }
+        ]
+      },
+      {
         text: 'Windows',
         children: [
           {
             text: 'DuiLib 源码剖析',
-            link: '/windows/duiLib-source-code-analysis.md'
+            link: '/posts/duilib-source-code-analysis.md'
           }
         ],
       }

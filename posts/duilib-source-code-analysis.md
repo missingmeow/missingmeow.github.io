@@ -4,8 +4,6 @@ description: DuiLib 源码剖析，深度学习 DuiLib 的消息机制。
 date: 2021-06-25
 ---
 
-# DuiLib 源码剖析
-
 ## Windows 消息机制
 
 **UI线程：** 创建窗口的线程必须就是处理窗口所有消息的线程，即**UI线程**（User Interface Thread）创建了窗体及窗体上的各种控件，系统为UI线程分配一个消息队列用于窗口消息的派送（dispatch）。为了使窗口处置这些消息，线程必须有它自己的“消息循环”。操作系统把**非UI线程**视作普通工作线程（Workhorse），不会为它创建消息队列。因此，调用PostThreadMessage前，这个线程必须是UI线程从而有投寄消息的队列
