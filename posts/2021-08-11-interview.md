@@ -57,7 +57,7 @@ date: 2021-08-11
 
 ## IO 多路复用
 
-#### 1. IO多路复用
+### 概念
 
 IO复用模型在阻塞IO模型上多了一个select函数，select函数有一个参数是文件描述符集合，意思就是对这些的文件描述符进行循环监听，当某个文件描述符就绪的时候，就对这个文件描述符进行处理。
 
@@ -74,6 +74,8 @@ I/O多路复用和阻塞I/O其实并没有太大的不同，事实上，还更�
 所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。）
 
 在IO multiplexing Model中，实际中，对于每一个socket，一般都设置成为non-blocking，但是，如上图所示，整个用户的process其实是一直被block的。只不过process是被select这个函数block，而不是被socket IO给block。
+
+### 实现
 
 #### 2、select
 
@@ -297,9 +299,9 @@ for (;;) {
 
     主线程负责接收任务分发到子线程执行。
 
-## 孤儿进程
+## 进程
 
-#### 1）正常进程
+### 1）正常进程
 
 正常情况下，子进程是通过父进程创建的，子进程再创建新的进程。子进程的结束和父进程的运行是一个异步过程，即父进程永远无法预测子进程到底什么时候结束。 当一个进程完成它的工作终止之后，它的父进程需要调用wait()或者waitpid()系统调用取得子进程的终止状态。
 
@@ -309,11 +311,11 @@ unix提供了一种机制可以保证只要父进程想知道子进程结束时�
 2. 退出状态the termination status of the process
 3. 运行时间the amount of CPU time taken by the process等
 
-#### 2）孤儿进程
+### 2）孤儿进程
 
 一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作。
 
-#### 3）僵尸进程
+### 3）僵尸进程
 
 一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵尸进程。
 
@@ -336,3 +338,33 @@ unix提供了一种机制可以保证只要父进程想知道子进程结束时�
 1、子进程退出时向父进程发送SIGCHILD信号，父进程处理SIGCHILD信号。在信号处理函数中调用wait进行处理僵尸进程。
 
 2、fork两次，原理是将子进程成为孤儿进程，从而其的父进程变为init进程，通过init进程可以处理僵尸进程。
+
+## MVC 和 MVVM
+
+1. 视图（View）：用户界面。
+2. 控制器（Controller）：业务逻辑
+3. 模型（Model）：数据保存
+
+### MVC
+
+即 Model - View - Controller
+
+![MVC](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015020105.png)
+
+1. View 传送指令到 Controller
+2. Controller 完成业务逻辑后，要求 Model 改变状态
+3. Model 将新的数据发送到 View，用户得到反馈
+
+所有通信都是单向的。
+
+### MVVM
+
+即 Model - View - View Model
+
+![MVVM](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015020110.png)
+
+View 和 Model 不通讯。
+
+View 和 View Model 以及 Model 和 View Model 的通讯都是双向的。
+
+参考链接：[MVC，MVP 和 MVVM 的图示](https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)

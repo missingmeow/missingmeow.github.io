@@ -229,6 +229,18 @@ private:
 
 std::function 满足可复制构造 (CopyConstructible) 和可复制赋值 (CopyAssignable) 。
 
+std::function 实际上也是一个封装的类，里面有个成员变量，类型为函数指针，保存它管理的函数指针。
+
+```cpp
+template<class _Rp, class ..._ArgTypes>
+class function<_Rp(_ArgTypes...)>
+{
+    typedef __function::__value_func<_Rp(_ArgTypes...)> __func;
+
+    __func __f_;
+};
+```
+
 ```c++
 #include <functional>
 #include <iostream>
@@ -360,7 +372,7 @@ std::unique_ptr<int> pointer3 = std::move(pointer); // 合法
 
 `std::weak_ptr` 弱引用不会增加引用计数。std::weak_ptr 没有 * 运算符和 -> 运算符，所以不能够对资源进行操作，它的唯一作用就是用于检查 std::shared_ptr 是否存在，其 expired() 方法能在资源未被释放时，会返回 false，否则返回 true。
 
-注意的是我们不能通过 weak_ptr 直接访问对象的方法，应该先把它转化为 shared_ptr ,如：shared_ptr p = pa->pb_.lock(); p->print();
+注意的是我们不能通过weak_ptr直接访问对象的方法，比如B对象中有一个方法 print(),我们不能这样访问，pa->pb_->print(); 英文pb_是一个weak_ptr，应该先把它转化为 shared_ptr,如：shared_ptr p = pa->pb_.lock(); p->print();
 
 ### 互斥锁
 
@@ -1349,3 +1361,60 @@ scoped_lock 类不可复制。
 4. recursive_directory_iterator 指向一个目录及其子目录的内容的迭代器
 5. file_status 表示文件类型及权限
 6. space_info 关于文件系统上空闲及可用空间的信息
+
+### std::reduce
+
+该函数模板与 std::accumulate 使用方式基本一致，都是对一个范围内的元素求和。
+
+但 reduce 多了个执行策略可以选择：
+
+```cpp
+// 定义于头文件 <execution>
+class sequenced_policy { /* unspecified */ }; //(1) (C++17 起)
+class parallel_policy { /* unspecified */ }; //(2) (C++17 起)
+class parallel_unsequenced_policy { /* unspecified */ }; //(3) (C++17 起)
+class unsequenced_policy { /* unspecified */ }; //(4) (C++20 起)
+```
+
+1. 以该执行策略类型为一种独有类型，对并行算法重载消歧义，并要求并行算法的执行可以不并行化。以此策略调用（通常以 std::execution::seq 指定）的并行算法中，元素访问函数的调用在调用方线程中是非确定顺序的。
+2. 以该执行策略类型为一种独有类型，对并行算法重载消歧义，并指示并行算法的执行可以并行化。以此策略调用（通常以 std::execution::par 指定）的并行算法中，元素访问函数的调用允许在调用方线程，或由库隐式创建的线程中执行，以支持并行算法执行。任何执行于同一线程中的这种调用彼此间是非确定顺序的，
+3. 以该执行策略类型为一种独有类型，对并行算法重载消歧义，并指示并行算法的执行可以并行化、向量化，或在线程间迁移（例如用亲窃取的调度器）。容许以此策略调用的并行算法中的元素访问函数调用在未指定线程中以无序方式执行，并相对于每个线程中的另一调用无顺序。
+4. 以该执行策略类型为一种独有类型，对并行算法重载消歧义，并指示可将算法的指向向量化，例如在单个线程上使用在多个数据项上操作的指令指执行。
+
+![img](https://pic4.zhimg.com/80/v2-93efa2ed72b75b42c7f386d1d126f883_1440w.jpg)
+
+使用特定的执行策略可以实现并行运算。
+
+```cpp
+#include <iostream>
+#include <chrono>
+#include <vector>
+#include <numeric>
+#include <execution>
+ 
+int main()
+{
+    std::vector<double> v(10'000'007, 0.5);
+ 
+    {
+        auto t1 = std::chrono::high_resolution_clock::now();
+        double result = std::accumulate(v.begin(), v.end(), 0.0);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> ms = t2 - t1;
+        std::cout << std::fixed << "std::accumulate result " << result
+                  << " took " << ms.count() << " ms\n";
+    }
+ 
+    {
+        auto t1 = std::chrono::high_resolution_clock::now();
+        double result = std::reduce(std::execution::par, v.begin(), v.end());
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> ms = t2 - t1;
+        std::cout << "std::reduce result "
+                  << result << " took " << ms.count() << " ms\n";
+    }
+}
+// 可能的输出：
+// std::accumulate result 5000003.50000 took 12.7365 ms
+// std::reduce result 5000003.50000 took 5.06423 ms
+```

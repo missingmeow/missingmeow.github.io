@@ -41,7 +41,8 @@ export default defineUserConfig<DefaultThemeOptions>({
       {
         text: 'Other',
         children: [
-          '/posts/interview.md'
+          '/posts/2021-08-11-interview.md',
+          '/posts/2021-11-07-design-patterns.md'
         ],
       }
     ]
